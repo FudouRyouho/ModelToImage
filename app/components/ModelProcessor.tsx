@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { SceneManager } from "~/utils/SceneManager";
-import { IMGGenerator } from "~/utils/GIFGenerator";
+import { renderModelJob } from "~/utils/renderModelJob";
 import { useSelector } from "react-redux";
 import type { ModelInfo } from "../types/models";
 import JSZip from "jszip";
@@ -92,39 +92,19 @@ export function ModelProcessor({
   };
 
   const processModel = useCallback(
-    async (model: ModelInfo, index: number, sceneManager: SceneManager) => {
-      if (!mountedRef.current) return null;
-
-      try {
-        setStatus((prev) => ({
-          ...prev,
-          current: index,
-          currentModel: model.name,
-          status: "loading",
-        }));
-
-        await sceneManager.loadModel(model);
-
-        setStatus((prev) => ({ ...prev, status: "rendering" }));
-        const frames = await sceneManager.captureFrames();
-
-        setStatus((prev) => ({ ...prev, status: "generating" }));
-        const gifGenerator = new IMGGenerator(config);
-        const gifBlob = await gifGenerator.createGIF(frames);
-        const pngBlob = await gifGenerator.createPNG(frames[1]);
-
-        if (!mountedRef.current) return null;
-
-        setStatus((prev) => ({ ...prev, status: "saving" }));
-        const gifUrl = URL.createObjectURL(gifBlob);
-        const pngUrl = URL.createObjectURL(pngBlob);
-
-        return { model, gifUrl, pngUrl };
-      } catch (error) {
-        console.error(`Error processing model ${model.name}:`, error);
-        throw error;
-      }
-    },
+    (model: ModelInfo, index: number, sceneManager: SceneManager) =>
+      renderModelJob(model, sceneManager, config, {
+        isActive: () => mountedRef.current,
+        onProgress: (stage) => {
+          setStatus((prev) => ({
+            ...prev,
+            ...(stage === "loading"
+              ? { current: index, currentModel: model.name }
+              : {}),
+            status: stage,
+          }));
+        },
+      }),
     [config]
   );
 
