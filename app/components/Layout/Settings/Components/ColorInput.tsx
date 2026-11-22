@@ -1,4 +1,4 @@
-import { Button, Input } from "@headlessui/react";
+import { Input } from "@headlessui/react";
 import { RotateCcw } from "lucide-react";
 import React from "react";
 import * as THREE from "three";
@@ -8,7 +8,7 @@ import UIButtons from "../../UI/UI-Button";
 
 interface IProps {
   label: string;
-  value: THREE.Color | string;
+  value: THREE.ColorRepresentation;
   onChange: (color: THREE.Color) => void;
   onReset: () => void;
   className?: string;

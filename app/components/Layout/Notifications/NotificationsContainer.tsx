@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '~/store/store';
-import { removeNotification, addNotification } from '~/store/NotificationsSlice';
+import { removeNotification } from '~/store/NotificationsSlice';
 import NotificationPush from './NotificationPush';
 
 const NotificationsContainer: React.FC = () => {
@@ -10,10 +10,6 @@ const NotificationsContainer: React.FC = () => {
 
   const handleRemoveNotification = (id: string) => {
     dispatch(removeNotification(id));
-  };
-
-  const handleAddNotification = () => {
-    dispatch(addNotification({ type: 'success', message: 'Notificación agregada correctamente' }));
   };
 
   return (

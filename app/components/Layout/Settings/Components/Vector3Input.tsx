@@ -1,4 +1,4 @@
-import { Button, Input } from "@headlessui/react";
+import { Input } from "@headlessui/react";
 import { RotateCcw } from "lucide-react";
 import React from "react";
 import useNotification from "../../Notifications/Utils/useNotification";

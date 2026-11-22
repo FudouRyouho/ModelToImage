@@ -25,7 +25,7 @@ export class SceneManager {
   }
 
   private setupCamera(): THREE.PerspectiveCamera {
-    const { fov, position, aspect } = this.config.camera;
+    const { fov, position } = this.config.camera;
     const camera = new THREE.PerspectiveCamera(
       fov,
       window.innerWidth / window.innerHeight,
@@ -182,7 +182,7 @@ export class SceneManager {
   }
 
   private adjustCamera(box: THREE.Box3): void {
-    const { fov, aspect } = this.config.camera;
+    const { fov } = this.config.camera;
 
     const size = box.getSize(new THREE.Vector3());
     const maxDim = Math.max(size.x, size.y, size.z);

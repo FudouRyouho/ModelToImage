@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { SceneManager } from "~/utils/SceneManager";
 import { IMGGenerator } from "~/utils/GIFGenerator";
 import { useSelector } from "react-redux";
@@ -141,7 +141,7 @@ export function ModelProcessor({
 
     try {
       if (!sceneManagerRef.current) {
-        sceneManagerRef.current = new SceneManager(canvasRef.current!, config);
+        sceneManagerRef.current = new SceneManager(canvasRef.current!, config, false);
       }
 
       setStatus({

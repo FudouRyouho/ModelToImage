@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectConfig } from "~/store/configSlince";
 import type { ModelInfo } from "~/types/models";
 import ModelView from "./View/ModelView";
-import { Button, Input, Transition } from "@headlessui/react";
+import { Button } from "@headlessui/react";
 import { EyeClosed, ScanEye, Square, SquareCheck, View } from "lucide-react";
 import { RootState } from "~/store/store";
 

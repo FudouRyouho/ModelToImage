@@ -1,11 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Bell,
-  Check,
   Info,
-  AlertTriangle,
-  Square,
-  Loader,
   ChevronRight,
   Settings,
   CircleCheck,

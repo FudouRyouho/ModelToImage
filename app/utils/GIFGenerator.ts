@@ -2,8 +2,12 @@ import GIF from "gif.js";
 import Worker from "gif.js/dist/gif.worker.js?url";
 import { customConfig } from "~/config/customConfig";
 
+type GIFEncoder = InstanceType<typeof GIF> & {
+  on(event: "error", listener: (error: unknown) => void): InstanceType<typeof GIF>;
+};
+
 export class IMGGenerator {
-  private img: any;
+  private img: GIFEncoder;
   private config: customConfig;
   
 
@@ -16,7 +20,7 @@ export class IMGGenerator {
       height: config.output.height,
       transparent: "true",
       workerScript: Worker,
-    });
+    }) as GIFEncoder;
   }
 
   async createGIF(frames: string[]): Promise<Blob> {
@@ -57,7 +61,7 @@ export class IMGGenerator {
         resolve(blob);
       });
 
-      this.img.on("error", (error: any) => {
+      this.img.on("error", (error: unknown) => {
         console.error("Error during GIF creation:", error);
         reject(error);
       });

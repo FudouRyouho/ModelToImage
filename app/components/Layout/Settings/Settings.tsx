@@ -1,5 +1,4 @@
 import React from "react";
-import { Button } from "@headlessui/react";
 import { Camera, Monitor, Sun, Play, Box, Download, Image } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -17,11 +16,9 @@ import {
   updateModelPosition,
   updateModelSize,
   updateOutput,
-  updateDebug,
   updatePreview,
 } from "~/store/configSlince";
 import type { RootState } from "~/store/store";
-import { Color } from "three";
 import NumberInput from "./Components/NumberInput";
 import ColorInput from "./Components/ColorInput";
 import Vector3Input from "./Components/Vector3Input";
@@ -31,7 +28,7 @@ import SelectMenu from "./Components/SelectMenu";
 
 interface IProps {}
 
-const Settings: React.FC<IProps> = ({}) => {
+const Settings: React.FC<IProps> = () => {
   const dispatch = useDispatch();
   const config = useSelector((state: RootState) => selectConfig(state));
 

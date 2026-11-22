@@ -1,4 +1,4 @@
-import { Color, Fog } from "three";
+import type { ColorRepresentation } from "three";
 export interface customConfig {
 
   camera: {
@@ -7,8 +7,13 @@ export interface customConfig {
     aspect: number;
   };
   scene: {
-    background: Color;
-    fog: any;
+    background: ColorRepresentation;
+    fog: {
+      color: ColorRepresentation;
+      near: number;
+      far: number;
+      density?: number;
+    };
     orbitControls: {
       enableRotate: boolean;
       enableZoom: boolean;
@@ -30,11 +35,11 @@ export interface customConfig {
 
   lighting: {
     ambient: {
-      color: Color;
+      color: ColorRepresentation;
       intensity: number;
     };
     directional: {
-      color: Color;
+      color: ColorRepresentation;
       intensity: number;
       position: { x: number; y: number; z: number };
     };

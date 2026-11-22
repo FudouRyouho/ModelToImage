@@ -4,3 +4,6 @@ node_modules
 /build
 .env
 public/assets/
+
+# Local ODD planning artifacts
+/odd/

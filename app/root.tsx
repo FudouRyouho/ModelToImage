@@ -13,7 +13,6 @@ import { Provider } from "react-redux";
 import store from "./store/store";
 import NotificationsContainer from "./components/Layout/Notifications/NotificationsContainer";
 import React from "react";
-import { SidebarProvider, useSidebar } from "./components/Layout/SideBar/sidebarContext";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },

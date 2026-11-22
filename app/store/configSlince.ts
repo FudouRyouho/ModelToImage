@@ -2,11 +2,12 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { customConfig, defaultConfig } from "~/config/customConfig";
 import { RootState } from "./store";
 import { Color } from "three";
+import type { ColorRepresentation } from "three";
 
 
 type Vector3Update = { x?: number; y?: number; z?: number };
 type LightingUpdate = {
-  color?: Color;
+  color?: ColorRepresentation;
   intensity?: number;
   position?: Vector3Update;
 };
@@ -63,11 +64,17 @@ const configSlice = createSlice({
       state.camera.aspect = action.payload;
       saveConfig(state);
     },
-    updateSceneBackground: (state, action: PayloadAction<Color>) => {
+    updateSceneBackground: (
+      state,
+      action: PayloadAction<ColorRepresentation>
+    ) => {
       state.scene.background = action.payload;
       saveConfig(state);
     },
-    updateSceneFog: (state, action: PayloadAction<any>) => {
+    updateSceneFog: (
+      state,
+      action: PayloadAction<customConfig["scene"]["fog"]>
+    ) => {
       state.scene.fog = action.payload;
       saveConfig(state);
     },
@@ -165,10 +172,15 @@ export const selectDebug = (state: RootState) => state.config.debug;
 export default configSlice.reducer;
 
 
-const getNestedValue = (obj: any, path: string) => {
-  const value = path
-    .split(".")
-    .reduce((acc, part) => (acc ? acc[part] : undefined), obj);
+type NestedConfigRecord = Record<string, unknown>;
+
+const getNestedValue = (obj: ConfigState, path: string): unknown => {
+  const value = path.split(".").reduce<unknown>((acc, part) => {
+    if (acc && typeof acc === "object") {
+      return (acc as NestedConfigRecord)[part];
+    }
+    return undefined;
+  }, obj);
 
 
   if (value instanceof Color) {
@@ -189,13 +201,17 @@ const getNestedValue = (obj: any, path: string) => {
   return value;
 };
 
-const setNestedValue = (obj: any, path: string, value: any) => {
+const setNestedValue = (
+  obj: ConfigState,
+  path: string,
+  value: unknown
+): ConfigState => {
   const parts = path.split(".");
   const lastPart = parts.pop()!;
-  const target = parts.reduce((acc, part) => {
+  const target = parts.reduce<NestedConfigRecord>((acc, part) => {
     if (!(part in acc)) acc[part] = {};
-    return acc[part];
-  }, obj);
+    return acc[part] as NestedConfigRecord;
+  }, obj as unknown as NestedConfigRecord);
 
   if (value instanceof Color) {
     target[lastPart] = value.clone();

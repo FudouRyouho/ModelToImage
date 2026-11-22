@@ -1,6 +1,4 @@
-import { ArrowDown, ChevronDown, X } from "lucide-react";
-import React, { useState } from "react";
-import UIButtons from "../../UI/UI-Button";
+import React from "react";
 
 interface IProps {
   label: string;

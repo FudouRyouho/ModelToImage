@@ -1,12 +1,11 @@
 import React, { useEffect } from "react";
 import { useScene } from "../Utils/useScene";
 import type { ModelInfo } from "~/types/models";
-import UIButtons from "../../UI/UI-Button";
-import { EyeClosed } from "lucide-react";
+import type { customConfig } from "~/config/customConfig";
 
 interface IProps {
   model: ModelInfo;
-  config: any;
+  config: customConfig;
   onRenderComplete?: () => void;
   onError?: (error: Error) => void;
   isPreview?: boolean;
@@ -17,7 +16,6 @@ const ModelView: React.FC<IProps> = ({
   model,
   config,
   onRenderComplete,
-  onError,
   isPreview = false,
   buttons = null,
 }) => {

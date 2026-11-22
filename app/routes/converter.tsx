@@ -19,9 +19,6 @@ export default function Index() {
     dispatch(loadModels());
   }, [dispatch]);
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
   useEffect(() => {
     // Filtrar los modelos para incluir solo los seleccionados
     const selectedModelsData = models.filter((model) =>
@@ -29,6 +26,10 @@ export default function Index() {
     );
     setFilteredModels(selectedModelsData);
   }, [models, selectedModels]);
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
   return (
     <div>
       <h1>3D Model to GIF Converter</h1>

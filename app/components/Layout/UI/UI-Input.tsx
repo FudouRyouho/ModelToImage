@@ -1,11 +1,10 @@
 import {
   Combobox,
-  ComboboxButton,
   ComboboxInput,
   ComboboxOption,
   ComboboxOptions,
 } from "@headlessui/react";
-import { Check, X } from "lucide-react";
+import { Check } from "lucide-react";
 import React from "react";
 
 interface IProps<T extends string> {
