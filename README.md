@@ -26,7 +26,7 @@ La imagen compila la aplicación de una sola página (SPA) con Node y sirve los 
 
 ### Desarrollo local
 
-Requiere Node.js 20 o posterior.
+Requiere Node.js 20.19+ o 22.12+.
 
 ```sh
 npm ci
@@ -61,10 +61,11 @@ npm test
 npm run test:spa
 npm run typecheck
 npm run lint
+npm run format:check
 npm run test:docker
 ```
 
-`test:spa` compila el paquete de producción y comprueba los archivos generados, incluido el archivo de trabajo que utiliza el codificador de GIF. `test:docker` requiere Docker y curl; verifica la página, el endpoint de salud y los recursos estáticos del contenedor. Estas pruebas automatizadas no reemplazan una ejecución en un navegador con WebGL usando tu propio paquete de modelos.
+`test:spa` compila el paquete de producción y comprueba los archivos generados, incluido el archivo de trabajo que utiliza el codificador de GIF. `test:docker` requiere Docker y curl; verifica la página, el endpoint de salud y los recursos estáticos del contenedor. `format:check` valida el formato; ejecutá `npm run format` para aplicarlo. Estas pruebas automatizadas no reemplazan una ejecución en un navegador con WebGL usando tu propio paquete de modelos.
 
 ## Recursos de referencia
 

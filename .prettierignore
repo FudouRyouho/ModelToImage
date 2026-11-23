@@ -1,0 +1,7 @@
+node_modules/
+.atl/
+build/
+coverage/
+public/assets/
+odd/
+package-lock.json

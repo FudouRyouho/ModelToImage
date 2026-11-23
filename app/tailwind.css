@@ -1,13 +1,17 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@theme {
+  --font-sans:
+    'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
 
 html,
 body {
   @apply bg-zinc-900;
 }
 
-/* Media query para el esquema de color */
+/* Respect the user's color scheme. */
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
