@@ -34,8 +34,14 @@ npm run build
 
 The test suite uses Node's built-in runner via tsx for importer/resource-loading checks. It does not exercise browser image decoding, WebGL, or complete PNG/GIF export; verify those manually in a browser.
 
-## Static deployment
+## Docker deployment
 
-`npm run build` produces the static SPA in `build/client` (including its GIF worker). Serve that directory with a static web server; no Remix/Node application server or filesystem model API is used. `npm start` runs Vite's preview server for local build inspection, not a production server. Docker packaging and end-to-end deployment verification are deferred to T5.
+```sh
+docker compose up --build -d
+```
+
+Open `http://localhost:8080`; override the host port with `MODELTOIMAGE_PORT`. The multi-stage image runs tests and the production SPA build in Node, then serves only `build/client` with Nginx. `/healthz` is the container health check. No Node application server, filesystem model API, or uploaded-file storage is used. `docker compose logs -f` follows logs; `docker compose down` stops the service.
+
+Run `npm run test:docker` to build the image and smoke-check the root page, health endpoint, emitted app bundle/GIF worker, and missing-worker 404. This requires Docker and curl. It does not simulate a WebGL browser; select a local ZIP in the browser, generate both artifacts, and verify/download the PNG and GIF. `.dockerignore` excludes build caches and dependencies but intentionally preserves `public/assets` reference models when present in the build context.
 
 The Remix server entry, catalog routes and batch UI have been removed. The existing `public/assets` models remain available as reference fixtures, not an automatically loaded catalog.

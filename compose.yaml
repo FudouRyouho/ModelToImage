@@ -1,0 +1,9 @@
+services:
+  modeltoimage:
+    build: .
+    image: modeltoimage:local
+    ports:
+      - "${MODELTOIMAGE_PORT:-8080}:80"
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true

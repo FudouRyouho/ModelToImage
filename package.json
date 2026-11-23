@@ -10,7 +10,8 @@
     "start": "vite preview --host 0.0.0.0",
     "typecheck": "tsc",
     "test": "node --import=tsx --test app/utils/*.test.ts",
-    "test:spa": "npm run build && node --test tests/spaBuild.test.mjs"
+    "test:spa": "npm run build && node --test tests/spaBuild.test.mjs",
+    "test:docker": "bash tests/docker-smoke.sh"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.0",
