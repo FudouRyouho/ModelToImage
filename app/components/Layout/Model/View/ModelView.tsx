@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
-import { useScene } from "../Utils/useScene";
-import type { ModelInfo } from "~/types/models";
-import type { customConfig } from "~/config/customConfig";
+import type React from 'react';
+import { useEffect } from 'react';
+import { useScene } from '../Utils/useScene';
+import type { ModelInfo } from '~/types/models';
+import type { customConfig } from '~/config/customConfig';
 
 interface IProps {
   model: ModelInfo;

@@ -3,9 +3,9 @@ import {
   ComboboxInput,
   ComboboxOption,
   ComboboxOptions,
-} from "@headlessui/react";
-import { Check } from "lucide-react";
-import React from "react";
+} from '@headlessui/react';
+import { Check } from 'lucide-react';
+import type React from 'react';
 
 interface IProps<T extends string> {
   label: string;
@@ -22,7 +22,12 @@ const UIInput = <T extends string>({
 }: IProps<T>): React.ReactElement => {
   return (
     <>
-      <Combobox value={value} onChange={onChange}>
+      <Combobox
+        value={value}
+        onChange={(nextValue) => {
+          if (nextValue !== null) onChange(nextValue);
+        }}
+      >
         <ComboboxInput
           placeholder={label}
           displayValue={(value: T) => value}
@@ -36,7 +41,7 @@ const UIInput = <T extends string>({
           anchor="bottom"
         >
           <div
-            className="w-full rounded-lg p-1 border border-white/5 bg-white/5 
+            className="w-full rounded-lg p-1 border border-white/5 bg-white/5
       focus:outline-none transition duration-100 ease-in"
           >
             {options.map((option) => (

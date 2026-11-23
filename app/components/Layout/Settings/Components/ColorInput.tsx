@@ -1,10 +1,10 @@
-import { Input } from "@headlessui/react";
-import { RotateCcw } from "lucide-react";
-import React from "react";
-import * as THREE from "three";
-import useNotification from "../../Notifications/Utils/useNotification";
-import { NotificationType } from "~/store/NotificationsSlice";
-import UIButtons from "../../UI/UI-Button";
+import { Input } from '@headlessui/react';
+import { RotateCcw } from 'lucide-react';
+import type React from 'react';
+import * as THREE from 'three';
+import useNotification from '../../Notifications/Utils/useNotification';
+import type { NotificationType } from '~/store/NotificationsSlice';
+import UIButtons from '../../UI/UI-Button';
 
 interface IProps {
   label: string;
@@ -13,7 +13,7 @@ interface IProps {
   onReset: () => void;
   className?: string;
   notifyOnReset?: {
-    type: NotificationType
+    type: NotificationType;
     message: string;
   };
 }
@@ -23,12 +23,13 @@ const ColorInput: React.FC<IProps> = ({
   value,
   onChange,
   onReset,
-  className = "",
+  className = '',
   notifyOnReset,
 }) => {
   const handleAddNotification = useNotification();
 
-  const colorValue = value instanceof THREE.Color ? value : new THREE.Color(value);
+  const colorValue =
+    value instanceof THREE.Color ? value : new THREE.Color(value);
 
   const handleReset = () => {
     onReset();

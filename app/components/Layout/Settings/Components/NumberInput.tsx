@@ -1,9 +1,9 @@
-import React from "react";
-import { Input } from "@headlessui/react";
-import { RotateCcw } from "lucide-react";
-import useNotification from "../../Notifications/Utils/useNotification";
-import { NotificationType } from "~/store/NotificationsSlice";
-import UIButtons from "../../UI/UI-Button";
+import type React from 'react';
+import { Input } from '@headlessui/react';
+import { RotateCcw } from 'lucide-react';
+import useNotification from '../../Notifications/Utils/useNotification';
+import type { NotificationType } from '~/store/NotificationsSlice';
+import UIButtons from '../../UI/UI-Button';
 
 interface IProps {
   label: string;
@@ -28,7 +28,7 @@ const NumberInput: React.FC<IProps> = ({
   min,
   max,
   step = 1,
-  className = "",
+  className = '',
   notifyOnReset,
 }) => {
   const handleAddNotification = useNotification();

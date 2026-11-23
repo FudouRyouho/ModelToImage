@@ -1,20 +1,21 @@
-import { useDispatch } from "react-redux";
-import { addNotification, NotificationType } from "~/store/NotificationsSlice";
+import { useDispatch } from 'react-redux';
+import { addNotification } from '~/store/NotificationsSlice';
+import type { NotificationType } from '~/store/NotificationsSlice';
 
 const useNotification = () => {
   const dispatch = useDispatch();
 
-  const handleAddNotification  = (
+  const handleAddNotification = (
     typeProp: NotificationType,
     messageProp: string,
-    iconProp?: React.ReactNode
+    iconProp?: React.ReactNode,
   ) => {
     dispatch(
       addNotification({
         type: typeProp,
         message: messageProp,
         icon: iconProp,
-      })
+      }),
     );
   };
 

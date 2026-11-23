@@ -1,6 +1,6 @@
-import React from "react";
-import { Camera, Monitor, Sun, Play, Box, Download, Image } from "lucide-react";
-import { useDispatch, useSelector } from "react-redux";
+import type React from 'react';
+import { Camera, Monitor, Sun, Play, Box, Download, Image } from 'lucide-react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   resetOption,
   selectConfig,
@@ -17,18 +17,16 @@ import {
   updateModelSize,
   updateOutput,
   updatePreview,
-} from "~/store/configSlince";
-import type { RootState } from "~/store/store";
-import NumberInput from "./Components/NumberInput";
-import ColorInput from "./Components/ColorInput";
-import Vector3Input from "./Components/Vector3Input";
-import SettingsCard from "./Components/Settings-card";
-import Masonry from "react-masonry-css";
-import SelectMenu from "./Components/SelectMenu";
+} from '~/store/configSlince';
+import type { RootState } from '~/store/store';
+import NumberInput from './Components/NumberInput';
+import ColorInput from './Components/ColorInput';
+import Vector3Input from './Components/Vector3Input';
+import SettingsCard from './Components/Settings-card';
+import Masonry from 'react-masonry-css';
+import SelectMenu from './Components/SelectMenu';
 
-interface IProps {}
-
-const Settings: React.FC<IProps> = () => {
+const Settings: React.FC = () => {
   const dispatch = useDispatch();
   const config = useSelector((state: RootState) => selectConfig(state));
 
@@ -53,12 +51,12 @@ const Settings: React.FC<IProps> = () => {
           label="FOV"
           value={config.camera.fov}
           onChange={(value) => dispatch(updateCameraFov(value))}
-          onReset={() => dispatch(resetOption({ path: "camera.fov" }))}
+          onReset={() => dispatch(resetOption({ path: 'camera.fov' }))}
           min={1}
           max={180}
           notifyOnReset={{
-            type: "success",
-            message: "Camera FOV has been reset to default value",
+            type: 'success',
+            message: 'Camera FOV has been reset to default value',
           }}
         />
 
@@ -76,11 +74,11 @@ const Settings: React.FC<IProps> = () => {
           label="Aspect"
           value={config.camera.aspect}
           onChange={(value) => dispatch(updateCameraAspect(value))}
-          onReset={() => dispatch(resetOption({ path: "camera.aspect" }))}
+          onReset={() => dispatch(resetOption({ path: 'camera.aspect' }))}
           min={0.1}
           notifyOnReset={{
-            type: "success",
-            message: "Camera aspect has been reset to default value",
+            type: 'success',
+            message: 'Camera aspect has been reset to default value',
           }}
         />
       </SettingsCard>
@@ -91,10 +89,10 @@ const Settings: React.FC<IProps> = () => {
           label="Background"
           value={config.scene.background}
           onChange={(color) => dispatch(updateSceneBackground(color))}
-          onReset={() => dispatch(resetOption({ path: "scene.background" }))}
+          onReset={() => dispatch(resetOption({ path: 'scene.background' }))}
           notifyOnReset={{
-            type: "success",
-            message: "Scene background color has been reset to default value",
+            type: 'success',
+            message: 'Scene background color has been reset to default value',
           }}
         />
         <div className="w-[80%] h-[1px] bg-white/10 my-2 mx-4" />
@@ -104,13 +102,13 @@ const Settings: React.FC<IProps> = () => {
           onChange={(value) =>
             dispatch(updateSceneFog({ ...config.scene.fog, density: value }))
           }
-          onReset={() => dispatch(resetOption({ path: "scene.fog" }))}
+          onReset={() => dispatch(resetOption({ path: 'scene.fog' }))}
           min={0}
           max={1}
           step={0.01}
           notifyOnReset={{
-            type: "success",
-            message: "Scene fog has been reset to default value",
+            type: 'success',
+            message: 'Scene fog has been reset to default value',
           }}
         />
       </SettingsCard>
@@ -124,12 +122,12 @@ const Settings: React.FC<IProps> = () => {
             value={config.lighting.ambient.color}
             onChange={(color) => dispatch(updateAmbientLight({ color }))}
             onReset={() =>
-              dispatch(resetOption({ path: "lighting.ambient.color" }))
+              dispatch(resetOption({ path: 'lighting.ambient.color' }))
             }
             notifyOnReset={{
-              type: "success",
+              type: 'success',
               message:
-                "Ambiental Lighting color has been reset to default value",
+                'Ambiental Lighting color has been reset to default value',
             }}
           />
           <div className="w-[80%] h-[1px] bg-white/10 my-2 mx-4" />
@@ -140,15 +138,15 @@ const Settings: React.FC<IProps> = () => {
               dispatch(updateAmbientLight({ intensity: value }))
             }
             onReset={() =>
-              dispatch(resetOption({ path: "lighting.ambient.intensity" }))
+              dispatch(resetOption({ path: 'lighting.ambient.intensity' }))
             }
             min={0}
             max={10}
             step={0.1}
             notifyOnReset={{
-              type: "success",
+              type: 'success',
               message:
-                "Ambient lighting Intensity has been reset to default value",
+                'Ambient lighting Intensity has been reset to default value',
             }}
           />
           <div className="w-[80%] h-[1px] bg-white/10 my-2 mx-4" />
@@ -160,12 +158,12 @@ const Settings: React.FC<IProps> = () => {
             value={config.lighting.directional.color}
             onChange={(color) => dispatch(updateDirectionalLight({ color }))}
             onReset={() =>
-              dispatch(resetOption({ path: "lighting.directional.color" }))
+              dispatch(resetOption({ path: 'lighting.directional.color' }))
             }
             notifyOnReset={{
-              type: "success",
+              type: 'success',
               message:
-                "Directional Lighting color has been reset to default value",
+                'Directional Lighting color has been reset to default value',
             }}
           />
           <div className="w-[80%] h-[1px] bg-white/10 my-2 mx-4" />
@@ -176,15 +174,15 @@ const Settings: React.FC<IProps> = () => {
               dispatch(updateDirectionalLight({ intensity: value }))
             }
             onReset={() =>
-              dispatch(resetOption({ path: "lighting.directional.intensity" }))
+              dispatch(resetOption({ path: 'lighting.directional.intensity' }))
             }
             min={0}
             max={10}
             step={0.1}
             notifyOnReset={{
-              type: "success",
+              type: 'success',
               message:
-                "Direcional lighting intensity has been reset to default value",
+                'Direcional lighting intensity has been reset to default value',
             }}
           />
           <div className="w-[80%] h-[1px] bg-white/10 my-2 mx-4" />
@@ -208,12 +206,12 @@ const Settings: React.FC<IProps> = () => {
             dispatch(updateAnimation({ totalFrames: value }))
           }
           onReset={() =>
-            dispatch(resetOption({ path: "animation.totalFrames" }))
+            dispatch(resetOption({ path: 'animation.totalFrames' }))
           }
           min={2}
           notifyOnReset={{
-            type: "success",
-            message: "Animation Frames has been reset to default value",
+            type: 'success',
+            message: 'Animation Frames has been reset to default value',
           }}
         />
         <div className="w-[80%] h-[1px] bg-white/10 my-2 mx-4" />
@@ -222,11 +220,11 @@ const Settings: React.FC<IProps> = () => {
           label="FPS"
           value={config.animation.fps}
           onChange={(value) => dispatch(updateAnimation({ fps: value }))}
-          onReset={() => dispatch(resetOption({ path: "animation.fps" }))}
+          onReset={() => dispatch(resetOption({ path: 'animation.fps' }))}
           min={1}
           notifyOnReset={{
-            type: "success",
-            message: "Animation FPS has been reset to default value",
+            type: 'success',
+            message: 'Animation FPS has been reset to default value',
           }}
         />
         <div className="w-[80%] h-[1px] bg-white/10 my-2 mx-4" />
@@ -234,13 +232,13 @@ const Settings: React.FC<IProps> = () => {
         <div className="space-y-2">
           <SelectMenu
             label="Rotation Axis"
-            options={["x", "y", "z"]}
+            options={['x', 'y', 'z']}
             value={config.animation.rotationAxis}
             onChange={(newValue) =>
               dispatch(
                 updateAnimation({
                   rotationAxis: newValue,
-                })
+                }),
               )
             }
           />
@@ -255,7 +253,7 @@ const Settings: React.FC<IProps> = () => {
               dispatch(
                 updateAnimation({
                   autoRotate: !config.animation.autoRotate,
-                })
+                }),
               )
             }
             className="h-4 w-4"
@@ -289,11 +287,11 @@ const Settings: React.FC<IProps> = () => {
           label="Default Size"
           value={config.model.defaultSize}
           onChange={(value) => dispatch(updateModelSize(value))}
-          onReset={() => dispatch(resetOption({ path: "model.defaultSize" }))}
+          onReset={() => dispatch(resetOption({ path: 'model.defaultSize' }))}
           min={1}
           notifyOnReset={{
-            type: "success",
-            message: "Model default size has been reset to default value",
+            type: 'success',
+            message: 'Model default size has been reset to default value',
           }}
         />
       </SettingsCard>
@@ -304,11 +302,11 @@ const Settings: React.FC<IProps> = () => {
           label="Width"
           value={config.output.width}
           onChange={(value) => dispatch(updateOutput({ width: value }))}
-          onReset={() => dispatch(resetOption({ path: "output.width" }))}
+          onReset={() => dispatch(resetOption({ path: 'output.width' }))}
           min={1}
           notifyOnReset={{
-            type: "success",
-            message: "Output width has been reset to default value",
+            type: 'success',
+            message: 'Output width has been reset to default value',
           }}
         />
         <div className="w-[80%] h-[1px] bg-white/10 my-2 mx-4" />
@@ -317,11 +315,11 @@ const Settings: React.FC<IProps> = () => {
           label="Height"
           value={config.output.height}
           onChange={(value) => dispatch(updateOutput({ height: value }))}
-          onReset={() => dispatch(resetOption({ path: "output.height" }))}
+          onReset={() => dispatch(resetOption({ path: 'output.height' }))}
           min={1}
           notifyOnReset={{
-            type: "success",
-            message: "Output Height has been reset to default value",
+            type: 'success',
+            message: 'Output Height has been reset to default value',
           }}
         />
         <div className="w-[80%] h-[1px] bg-white/10 my-2 mx-4" />
@@ -333,12 +331,12 @@ const Settings: React.FC<IProps> = () => {
           label="Quality"
           value={config.output.quality}
           onChange={(value) => dispatch(updateOutput({ quality: value }))}
-          onReset={() => dispatch(resetOption({ path: "output.quality" }))}
+          onReset={() => dispatch(resetOption({ path: 'output.quality' }))}
           min={1}
           max={100}
           notifyOnReset={{
-            type: "success",
-            message: "Output quality has been reset to default value",
+            type: 'success',
+            message: 'Output quality has been reset to default value',
           }}
         />
       </SettingsCard>
@@ -349,11 +347,11 @@ const Settings: React.FC<IProps> = () => {
           label="Width"
           value={config.preview.width}
           onChange={(value) => dispatch(updatePreview({ width: value }))}
-          onReset={() => dispatch(resetOption({ path: "preview.width" }))}
+          onReset={() => dispatch(resetOption({ path: 'preview.width' }))}
           min={1}
           notifyOnReset={{
-            type: "success",
-            message: "Preview width has been reset to default value",
+            type: 'success',
+            message: 'Preview width has been reset to default value',
           }}
         />
         <div className="w-[80%] h-[1px] bg-white/10 my-2 mx-4" />
@@ -361,11 +359,11 @@ const Settings: React.FC<IProps> = () => {
           label="Height"
           value={config.preview.height}
           onChange={(value) => dispatch(updatePreview({ height: value }))}
-          onReset={() => dispatch(resetOption({ path: "preview.height" }))}
+          onReset={() => dispatch(resetOption({ path: 'preview.height' }))}
           min={1}
           notifyOnReset={{
-            type: "success",
-            message: "Preview Height has been reset to default value",
+            type: 'success',
+            message: 'Preview Height has been reset to default value',
           }}
         />
         <div className="w-[80%] h-[1px] bg-white/10 my-2 mx-4" />
@@ -373,12 +371,12 @@ const Settings: React.FC<IProps> = () => {
           label="Quality"
           value={config.preview.quality}
           onChange={(value) => dispatch(updatePreview({ quality: value }))}
-          onReset={() => dispatch(resetOption({ path: "preview.quality" }))}
+          onReset={() => dispatch(resetOption({ path: 'preview.quality' }))}
           min={1}
           max={100}
           notifyOnReset={{
-            type: "success",
-            message: "Output quality has been reset to default value",
+            type: 'success',
+            message: 'Output quality has been reset to default value',
           }}
         />
       </SettingsCard>

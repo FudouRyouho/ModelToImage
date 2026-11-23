@@ -1,12 +1,10 @@
-import React from "react";
+import type React from 'react';
 
 interface IProps {
   label: string;
   Icon: React.ElementType;
   children: React.ReactNode;
 }
-
-
 
 const SettingsCard: React.FC<IProps> = ({ label, Icon, children }) => {
   return (
@@ -16,11 +14,9 @@ const SettingsCard: React.FC<IProps> = ({ label, Icon, children }) => {
           <Icon className="size-5" />
           <h3 className="text-lg font-medium">{label}</h3>
         </div>
-
       </div>
-      
 
-       <div className={``}>{children}</div>
+      <div className={``}>{children}</div>
     </div>
   );
 };

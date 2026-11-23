@@ -1,15 +1,15 @@
-import { Input } from "@headlessui/react";
-import { RotateCcw } from "lucide-react";
-import React from "react";
-import useNotification from "../../Notifications/Utils/useNotification";
-import { NotificationType } from "~/store/NotificationsSlice";
-import { useDispatch } from "react-redux";
-import { resetOption } from "~/store/configSlince";
-import UIButtons from "../../UI/UI-Button";
+import { Input } from '@headlessui/react';
+import { RotateCcw } from 'lucide-react';
+import type React from 'react';
+import useNotification from '../../Notifications/Utils/useNotification';
+import type { NotificationType } from '~/store/NotificationsSlice';
+import { useDispatch } from 'react-redux';
+import { resetOption } from '~/store/configSlince';
+import UIButtons from '../../UI/UI-Button';
 interface IProps {
   label: string;
   value: { x: number; y: number; z: number };
-  onChange: (axis: "x" | "y" | "z", value: number) => void;
+  onChange: (axis: 'x' | 'y' | 'z', value: number) => void;
   path: string;
   className?: string;
   notifyOnReset?: {
@@ -23,7 +23,7 @@ const Vector3Input: React.FC<IProps> = ({
   value,
   onChange,
   path,
-  className = "",
+  className = '',
   notifyOnReset,
 }) => {
   const dispatch = useDispatch();
@@ -35,7 +35,7 @@ const Vector3Input: React.FC<IProps> = ({
       handleAddNotification(notifyOnReset.type, notifyOnReset.message);
     }
   };
-  const handleResetAxis = (axis: "x" | "y" | "z") => {
+  const handleResetAxis = (axis: 'x' | 'y' | 'z') => {
     dispatch(resetOption({ path: `${path}.${axis}` }));
     if (notifyOnReset) {
       handleAddNotification(notifyOnReset.type, notifyOnReset.message);
@@ -45,7 +45,7 @@ const Vector3Input: React.FC<IProps> = ({
     <div className={`text-center space-y-2 ${className}`}>
       <label className="text-sm">{label}</label>
       <div className="grid grid-cols-1 gap-2">
-        {(["x", "y", "z"] as const).map((axis) => (
+        {(['x', 'y', 'z'] as const).map((axis) => (
           <div key={axis} className="flex items-center justify-start gap-2">
             <label className="text-xs w-6">{axis.toUpperCase()}</label>
             <Input
@@ -68,7 +68,6 @@ const Vector3Input: React.FC<IProps> = ({
         icon={RotateCcw}
         onClick={handleReset}
       />
-      
     </div>
   );
 };

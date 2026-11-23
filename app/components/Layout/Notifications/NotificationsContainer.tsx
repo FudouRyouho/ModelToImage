@@ -1,12 +1,14 @@
-import React from 'react';
+import type React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '~/store/store';
+import type { RootState } from '~/store/store';
 import { removeNotification } from '~/store/NotificationsSlice';
 import NotificationPush from './NotificationPush';
 
 const NotificationsContainer: React.FC = () => {
   const dispatch = useDispatch();
-  const notifications = useSelector((state: RootState) => state.notifications.notifications);
+  const notifications = useSelector(
+    (state: RootState) => state.notifications.notifications,
+  );
 
   const handleRemoveNotification = (id: string) => {
     dispatch(removeNotification(id));

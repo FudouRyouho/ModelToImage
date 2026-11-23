@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 import {
   Bell,
   Info,
@@ -9,10 +9,10 @@ import {
   CircleX,
   X,
   View,
-} from "lucide-react";
-import { Button, Input } from "@headlessui/react";
-import UIButtons from "./UI/UI-Button";
-import useNotification from "./Notifications/Utils/useNotification";
+} from 'lucide-react';
+import { Button, Input } from '@headlessui/react';
+import UIButtons from './UI/UI-Button';
+import useNotification from './Notifications/Utils/useNotification';
 
 export default function StyleGuide() {
   const [isLoading, setIsLoading] = useState(false);
@@ -144,7 +144,7 @@ export default function StyleGuide() {
           Notificaciones y Estados
         </h2>
         <div className="space-y-4">
-            {/* Success */}
+          {/* Success */}
           <div className="flex flex-row gap-4">
             <div className="w-full bg-emerald-500/10 text-emerald-300 p-4 rounded flex justify-between">
               <div className="flex gap-1">
@@ -158,61 +158,61 @@ export default function StyleGuide() {
             <UIButtons
               text="Testing"
               onClick={() =>
-                handleNotification("success", "This is succes notification")
+                handleNotification('success', 'This is succes notification')
               }
             />
           </div>
           {/* Error */}
           <div className="flex flex-row gap-4">
-          <div className="w-full bg-red-500/10 text-red-300 p-4 rounded flex justify-between">
-            <div className="flex gap-1">
-              <CircleX className="mr-2" />
-              Error
+            <div className="w-full bg-red-500/10 text-red-300 p-4 rounded flex justify-between">
+              <div className="flex gap-1">
+                <CircleX className="mr-2" />
+                Error
+              </div>
+              <Button className="group transition-all duration-300 ease-in-out inline-flex items-center">
+                <X className="group-hover:text-red-500 group-active:text-white group-hover:rotate-90 group-active:-rotate-90 transition-all duration-300" />
+              </Button>
             </div>
-            <Button className="group transition-all duration-300 ease-in-out inline-flex items-center">
-              <X className="group-hover:text-red-500 group-active:text-white group-hover:rotate-90 group-active:-rotate-90 transition-all duration-300" />
-            </Button>
-          </div>
-          <UIButtons
+            <UIButtons
               text="Testing"
               onClick={() =>
-                handleNotification("error", "This is error notification")
+                handleNotification('error', 'This is error notification')
               }
             />
           </div>
           {/* Warnning */}
           <div className="flex flex-row gap-4">
-          <div className="w-full bg-yellow-500/10 text-yellow-300 p-4 rounded flex justify-between">
-            <div className="flex gap-1">
-              <CircleAlert className="mr-2" />
-              Warnning
+            <div className="w-full bg-yellow-500/10 text-yellow-300 p-4 rounded flex justify-between">
+              <div className="flex gap-1">
+                <CircleAlert className="mr-2" />
+                Warnning
+              </div>
+              <Button className="group transition-all duration-300 ease-in-out inline-flex items-center">
+                <X className="group-hover:text-red-500 group-active:text-white group-hover:rotate-90 group-active:-rotate-90 transition-all duration-300" />
+              </Button>
             </div>
-            <Button className="group transition-all duration-300 ease-in-out inline-flex items-center">
-              <X className="group-hover:text-red-500 group-active:text-white group-hover:rotate-90 group-active:-rotate-90 transition-all duration-300" />
-            </Button>
-          </div>
-          <UIButtons
+            <UIButtons
               text="Testing"
               onClick={() =>
-                handleNotification("warning", "This is warning notification")
+                handleNotification('warning', 'This is warning notification')
               }
             />
           </div>
           {/* Info */}
           <div className="flex flex-row gap-4">
-          <div className="w-full bg-blue-500/10 text-blue-300 p-4 rounded flex justify-between">
-            <div className="flex gap-1">
-              <Info className="mr-2" />
-              Información
+            <div className="w-full bg-blue-500/10 text-blue-300 p-4 rounded flex justify-between">
+              <div className="flex gap-1">
+                <Info className="mr-2" />
+                Información
+              </div>
+              <Button className="group transition-all duration-300 ease-in-out inline-flex items-center">
+                <X className="group-hover:text-red-500 group-active:text-white group-hover:rotate-90 group-active:-rotate-90 transition-all duration-300" />
+              </Button>
             </div>
-            <Button className="group transition-all duration-300 ease-in-out inline-flex items-center">
-              <X className="group-hover:text-red-500 group-active:text-white group-hover:rotate-90 group-active:-rotate-90 transition-all duration-300" />
-            </Button>
-          </div>
-          <UIButtons
+            <UIButtons
               text="Testing"
               onClick={() =>
-                handleNotification("info", "This is info notification")
+                handleNotification('info', 'This is info notification')
               }
             />
           </div>

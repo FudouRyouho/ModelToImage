@@ -1,6 +1,5 @@
-import type { ColorRepresentation } from "three";
+import type { ColorRepresentation } from 'three';
 export interface customConfig {
-
   camera: {
     fov: number;
     position: { x: number; y: number; z: number };
@@ -48,7 +47,7 @@ export interface customConfig {
   animation: {
     totalFrames: number;
     fps: number;
-    rotationAxis: "x" | "y" | "z";
+    rotationAxis: 'x' | 'y' | 'z';
     autoRotate: boolean;
   };
 
@@ -69,8 +68,8 @@ export interface customConfig {
     height: number;
     quality: number;
     backgroundColor: number;
-  }
-  debug: "none" | "normal" | "complete";
+  };
+  debug: 'complete' | 'none' | 'normal';
 }
 
 export const defaultConfig: customConfig = {
@@ -102,7 +101,7 @@ export const defaultConfig: customConfig = {
       zoomSpeed: 1.0,
       rotateSpeed: 1.0,
       panSpeed: 1,
-    }
+    },
   },
   lighting: {
     ambient: {
@@ -118,7 +117,7 @@ export const defaultConfig: customConfig = {
   animation: {
     totalFrames: 90,
     fps: 30,
-    rotationAxis: "y",
+    rotationAxis: 'y',
     autoRotate: true,
   },
   model: {
@@ -138,5 +137,5 @@ export const defaultConfig: customConfig = {
     quality: 10,
     backgroundColor: 0x000000,
   },
-  debug: "none",
+  debug: 'none',
 };

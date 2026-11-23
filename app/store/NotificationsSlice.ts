@@ -1,6 +1,7 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
 
-export type NotificationType = 'success' | 'error' | 'warning' | 'info'
+export type NotificationType = 'error' | 'info' | 'success' | 'warning';
 
 interface NotificationData {
   id: string;
@@ -21,17 +22,21 @@ const notificationsSlice = createSlice({
   name: 'notifications',
   initialState,
   reducers: {
-    addNotification: (state, action: PayloadAction<Omit<NotificationData, 'id'>>) => {
+    addNotification: (
+      state,
+      action: PayloadAction<Omit<NotificationData, 'id'>>,
+    ) => {
       const id = Math.random().toString(36).substr(2, 9);
       state.notifications.push({ ...action.payload, id });
     },
     removeNotification: (state, action: PayloadAction<string>) => {
       state.notifications = state.notifications.filter(
-        (notification) => notification.id !== action.payload
+        (notification) => notification.id !== action.payload,
       );
     },
   },
 });
 
-export const { addNotification, removeNotification } = notificationsSlice.actions;
+export const { addNotification, removeNotification } =
+  notificationsSlice.actions;
 export default notificationsSlice.reducer;

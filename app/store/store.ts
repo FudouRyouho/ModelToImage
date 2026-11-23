@@ -1,13 +1,13 @@
-import { configureStore } from "@reduxjs/toolkit";
-import configSlice from './configSlince'
-import notificationsSlice from './NotificationsSlice'
+import { configureStore } from '@reduxjs/toolkit';
+import configSlice from './configSlince';
+import notificationsSlice from './NotificationsSlice';
 
 const store = configureStore({
-    reducer: {
-        config: configSlice,
-        notifications: notificationsSlice
-    }
-})
+  reducer: {
+    config: configSlice,
+    notifications: notificationsSlice,
+  },
+});
 
 export default store;
 

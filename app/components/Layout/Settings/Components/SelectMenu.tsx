@@ -3,9 +3,9 @@ import {
   ListboxButton,
   ListboxOption,
   ListboxOptions,
-} from "@headlessui/react";
-import { Check, ChevronDown } from "lucide-react";
-import React from "react";
+} from '@headlessui/react';
+import { Check, ChevronDown } from 'lucide-react';
+import type React from 'react';
 
 interface IProps<T extends string> {
   label: string;
@@ -36,7 +36,7 @@ const SelectMenu = <T extends string>({
           transition
         >
           <div
-            className="w-full rounded-lg p-1 border border-white/5 bg-white/5 
+            className="w-full rounded-lg p-1 border border-white/5 bg-white/5
           focus:outline-none transition duration-100 ease-in"
           >
             {options.map((option) => (
@@ -46,9 +46,8 @@ const SelectMenu = <T extends string>({
                 className="group grid grid-cols-2 text-center cursor-pointer items-center gap-2 rounded-lg py-1.5 px-3 select-none hover:bg-white/15 data-[selected]:text-indigo-300"
               >
                 <div className="justify-self-start">{option.toUpperCase()}</div>
-                
+
                 <Check className="invisible size-4 group-data-[selected]:visible justify-self-end" />
-                
               </ListboxOption>
             ))}
           </div>
