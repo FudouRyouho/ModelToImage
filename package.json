@@ -4,25 +4,22 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "build": "remix vite:build",
-    "dev": "remix vite:dev",
+    "build": "vite build",
+    "dev": "vite",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
-    "start": "remix-serve ./build/server/index.js",
+    "start": "vite preview --host 0.0.0.0",
     "typecheck": "tsc",
-    "test": "node --import=tsx --test app/utils/*.test.ts"
+    "test": "node --import=tsx --test app/utils/*.test.ts",
+    "test:spa": "npm run build && node --test tests/spaBuild.test.mjs"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.0",
     "@reduxjs/toolkit": "^2.3.0",
-    "@remix-run/node": "^2.14.0",
-    "@remix-run/react": "^2.14.0",
-    "@remix-run/serve": "^2.14.0",
     "@types/gif.js": "^0.2.5",
     "@zip.js/zip.js": "2.25.0",
     "file-saver": "^2.0.5",
     "gif.js": "^0.2.0",
     "gif.js.optimized": "^1.0.1",
-    "isbot": "^4.1.0",
     "jszip": "^3.10.1",
     "lucide-react": "^0.456.0",
     "react": "^18.2.0",
@@ -34,8 +31,8 @@
     "three": "^0.170.0"
   },
   "devDependencies": {
-    "@remix-run/dev": "^2.14.0",
     "@types/file-saver": "^2.0.7",
+    "@types/node": "^20.19.43",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
     "@types/three": "^0.169.0",

@@ -61,7 +61,6 @@ export interface customConfig {
   output: {
     width: number;
     height: number;
-    format: "gif" | "png";
     quality: number;
     backgroundColor: number;
   };
@@ -130,7 +129,6 @@ export const defaultConfig: customConfig = {
   output: {
     width: 512,
     height: 512,
-    format: "gif",
     quality: 10,
     backgroundColor: 0x000000,
   },

@@ -210,7 +210,7 @@ const Settings: React.FC<IProps> = () => {
           onReset={() =>
             dispatch(resetOption({ path: "animation.totalFrames" }))
           }
-          min={1}
+          min={2}
           notifyOnReset={{
             type: "success",
             message: "Animation Frames has been reset to default value",
@@ -326,20 +326,7 @@ const Settings: React.FC<IProps> = () => {
         />
         <div className="w-[80%] h-[1px] bg-white/10 my-2 mx-4" />
 
-        <div className="space-y-2">
-          <SelectMenu
-            label="Format"
-            options={["gif", "png"]}
-            value={config.output.format}
-            onChange={(newValue) =>
-              dispatch(
-                updateOutput({
-                  format: newValue,
-                })
-              )
-            }
-          />
-        </div>
+        <p>PNG + GIF are generated on every run.</p>
         <div className="w-[80%] h-[1px] bg-white/10 my-2 mx-4" />
 
         <NumberInput
