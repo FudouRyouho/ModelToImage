@@ -7,7 +7,7 @@ export async function scanModels(): Promise<ModelInfo[]> {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    const models: ModelInfo[] = await response.json();
+    const models = (await response.json()) as ModelInfo[];
     return models;
   } catch (error) {
     console.error('Error scanning models:', error);

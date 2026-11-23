@@ -1,15 +1,18 @@
-import GIF from "gif.js";
-import Worker from "gif.js/dist/gif.worker.js?url";
-import { customConfig } from "~/config/customConfig";
+import GIF from 'gif.js';
+import Worker from 'gif.js/dist/gif.worker.js?url';
+import type { customConfig } from '~/config/customConfig';
+import { normalizeErrorReason } from '~/utils/normalizeErrorReason';
 
 type GIFEncoder = InstanceType<typeof GIF> & {
-  on(event: "error", listener: (error: unknown) => void): InstanceType<typeof GIF>;
+  on(
+    event: 'error',
+    listener: (error: unknown) => void,
+  ): InstanceType<typeof GIF>;
 };
 
 export class IMGGenerator {
   private img: GIFEncoder;
   private config: customConfig;
-  
 
   constructor(config: customConfig) {
     this.config = config;
@@ -18,19 +21,18 @@ export class IMGGenerator {
       quality: config.output.quality,
       width: config.output.width,
       height: config.output.height,
-      transparent: "true",
+      transparent: 'true',
       workerScript: Worker,
     }) as GIFEncoder;
   }
 
   async createGIF(frames: string[]): Promise<Blob> {
     return new Promise((resolve, reject) => {
-      if (this.config.debug === 'normal'){
-       console.log("Starting GIF creation...");}
-
+      if (this.config.debug === 'normal') {
+        console.log('Starting GIF creation...');
+      }
 
       let framesAdded = 0;
-
 
       frames.forEach((frame, index) => {
         const img = new Image();
@@ -40,45 +42,47 @@ export class IMGGenerator {
           //console.log(`Frame ${index + 1} loaded and added to GIF.`);
           this.img.addFrame(img, { delay: 1000 / this.config.animation.fps });
 
-
           framesAdded++;
           if (framesAdded === frames.length) {
-            if (this.config.debug === 'normal')
-            {console.log("All frames added, starting render...");}
+            if (this.config.debug === 'normal') {
+              console.log('All frames added, starting render...');
+            }
             this.img.render();
           }
         };
 
         img.onerror = (err) => {
           console.error(`Error loading frame ${index + 1}:`, err);
-          reject(err);
+          reject(normalizeErrorReason(err, 'Unable to process ZIP'));
         };
       });
 
-      this.img.on("finished", (blob: Blob) => {
-        if (this.config.debug === 'normal')
-        {console.log("GIF creation finished.");}
+      this.img.on('finished', (blob: Blob) => {
+        if (this.config.debug === 'normal') {
+          console.log('GIF creation finished.');
+        }
         resolve(blob);
       });
 
-      this.img.on("error", (error: unknown) => {
-        console.error("Error during GIF creation:", error);
-        reject(error);
+      this.img.on('error', (error: unknown) => {
+        console.error('Error during GIF creation:', error);
+        reject(normalizeErrorReason(error, 'Unable to process ZIP'));
       });
     });
   }
 
   async createPNG(frame: string): Promise<Blob> {
     return new Promise((resolve, reject) => {
-      if (this.config.debug === 'normal')
-      {console.log("Creating PNG...");}
+      if (this.config.debug === 'normal') {
+        console.log('Creating PNG...');
+      }
 
       const img = new Image();
       img.src = frame;
 
       img.onload = () => {
-        const canvas = document.createElement("canvas");
-        const ctx = canvas.getContext("2d");
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
 
         if (ctx) {
           canvas.width = img.width;
@@ -86,35 +90,37 @@ export class IMGGenerator {
           ctx.drawImage(img, 0, 0);
           canvas.toBlob((blob) => {
             if (blob) {
-              if (this.config.debug === 'normal')
-              {console.log("PNG creation finished.");}
+              if (this.config.debug === 'normal') {
+                console.log('PNG creation finished.');
+              }
               resolve(blob);
             } else {
-              reject(new Error("Failed to convert to PNG"));
+              reject(new Error('Failed to convert to PNG'));
             }
-          }, "image/png");
+          }, 'image/png');
         } else {
-          reject(new Error("Failed to get canvas context"));
+          reject(new Error('Failed to get canvas context'));
         }
       };
 
       img.onerror = (err) => {
-        console.error("Error creating PNG:", err);
-        reject(err);
+        console.error('Error creating PNG:', err);
+        reject(normalizeErrorReason(err, 'Unable to process ZIP'));
       };
     });
   }
   async createPreview(frame: string): Promise<Blob> {
     return new Promise((resolve, reject) => {
-      if (this.config.debug === 'normal')
-      {console.log("Creating PNG...");}
+      if (this.config.debug === 'normal') {
+        console.log('Creating PNG...');
+      }
 
       const img = new Image();
       img.src = frame;
 
       img.onload = () => {
-        const canvas = document.createElement("canvas");
-        const ctx = canvas.getContext("2d");
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
 
         if (ctx) {
           canvas.width = this.config.preview.width;
@@ -123,23 +129,23 @@ export class IMGGenerator {
 
           canvas.toBlob((blob) => {
             if (blob) {
-              if (this.config.debug === 'normal')
-              {console.log("PNG creation finished.");}
+              if (this.config.debug === 'normal') {
+                console.log('PNG creation finished.');
+              }
               resolve(blob);
             } else {
-              reject(new Error("Failed to convert to PNG"));
+              reject(new Error('Failed to convert to PNG'));
             }
-          }, "image/png");
+          }, 'image/png');
         } else {
-          reject(new Error("Failed to get canvas context"));
+          reject(new Error('Failed to get canvas context'));
         }
       };
 
       img.onerror = (err) => {
-        console.error("Error creating PNG:", err);
-        reject(err);
+        console.error('Error creating PNG:', err);
+        reject(normalizeErrorReason(err, 'Unknown error'));
       };
     });
   }
-  
 }

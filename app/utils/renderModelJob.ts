@@ -1,10 +1,11 @@
-import type { LoadingManager } from "three";
-import type { customConfig } from "~/config/customConfig";
-import type { ModelInfo } from "../types/models";
-import { IMGGenerator } from "./GIFGenerator";
-import type { SceneManager } from "./SceneManager";
+import type { LoadingManager } from 'three';
+import type { customConfig } from '~/config/customConfig';
+import type { ModelInfo } from '../types/models';
+import { IMGGenerator } from './GIFGenerator';
+import type { SceneManager } from './SceneManager';
 
-export type RenderModelJobStage = "loading" | "rendering" | "generating" | "saving";
+export type RenderModelJobStage =
+  'generating' | 'loading' | 'rendering' | 'saving';
 
 export interface RenderModelJobResult {
   model: ModelInfo;
@@ -15,7 +16,7 @@ export interface RenderModelJobResult {
 export interface RenderModelJobOptions {
   onProgress?: (stage: RenderModelJobStage) => void;
   /** Creates a fresh isolated manager; caller keeps package URLs alive until job settles. */
-  createLoadingManager?: () => LoadingManager;
+  createLoadingManager?: (this: void) => LoadingManager;
   /** Checked before loading and before creating URLs; does not cancel in-flight work. */
   isActive?: () => boolean;
 }
@@ -28,25 +29,25 @@ export async function renderModelJob(
   model: ModelInfo,
   sceneManager: SceneManager,
   config: customConfig,
-  { onProgress, isActive, createLoadingManager }: RenderModelJobOptions = {}
+  { onProgress, isActive, createLoadingManager }: RenderModelJobOptions = {},
 ): Promise<RenderModelJobResult | null> {
   if (isActive && !isActive()) return null;
 
   try {
-    onProgress?.("loading");
+    onProgress?.('loading');
     await sceneManager.loadModel(model, createLoadingManager);
 
-    onProgress?.("rendering");
+    onProgress?.('rendering');
     const frames = await sceneManager.captureFrames();
 
-    onProgress?.("generating");
+    onProgress?.('generating');
     const gifGenerator = new IMGGenerator(config);
     const gifBlob = await gifGenerator.createGIF(frames);
-    const pngBlob = await gifGenerator.createPNG(frames[1]);
+    const pngBlob = await gifGenerator.createPNG(frames[1]!);
 
     if (isActive && !isActive()) return null;
 
-    onProgress?.("saving");
+    onProgress?.('saving');
     const gifUrl = URL.createObjectURL(gifBlob);
     const pngUrl = URL.createObjectURL(pngBlob);
 

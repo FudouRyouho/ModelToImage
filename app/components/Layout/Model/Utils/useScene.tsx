@@ -1,14 +1,18 @@
-import { useRef, useState, useEffect, useCallback } from "react";
-import { SceneManager } from "~/utils/SceneManager";
-import type { ModelInfo } from "~/types/models";
-import { customConfig } from "~/config/customConfig";
-import { IMGGenerator } from "~/utils/GIFGenerator";
+import { useRef, useState, useEffect, useCallback } from 'react';
+import { SceneManager } from '~/utils/SceneManager';
+import type { ModelInfo } from '~/types/models';
+import type { customConfig } from '~/config/customConfig';
+import { IMGGenerator } from '~/utils/GIFGenerator';
 
-export const useScene = (model: ModelInfo, config: customConfig, isPreview: boolean) => {
+export const useScene = (
+  model: ModelInfo,
+  config: customConfig,
+  isPreview: boolean,
+) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [previewImg, setPreviewImg] = useState<string | null>(null)
+  const [previewImg, setPreviewImg] = useState<string | null>(null);
   const [isPreviewReady, setIsPreviewReady] = useState(false);
 
   useEffect(() => {
@@ -28,16 +32,15 @@ export const useScene = (model: ModelInfo, config: customConfig, isPreview: bool
         const previewUrl = URL.createObjectURL(previewFrame);
         setPreviewImg(previewUrl);
 
-
         setIsPreviewReady(true);
       } catch (err) {
-        setError(err instanceof Error ? err.message : "Unknown error");
+        setError(err instanceof Error ? err.message : 'Unknown error');
       } finally {
         setIsLoading(false);
       }
     };
 
-    initializeScene();
+    void initializeScene();
 
     return () => {
       setPreviewImg(null);
@@ -50,8 +53,19 @@ export const useScene = (model: ModelInfo, config: customConfig, isPreview: bool
   }, [previewImg]);
 
   const canvasElement = (
-    <canvas ref={canvasRef} width={config.output.width} height={config.output.height} />
+    <canvas
+      ref={canvasRef}
+      width={config.output.width}
+      height={config.output.height}
+    />
   );
 
-  return { canvasElement, capturePreview, isLoading, error, isPreviewReady, previewImg };
+  return {
+    canvasElement,
+    capturePreview,
+    isLoading,
+    error,
+    isPreviewReady,
+    previewImg,
+  };
 };
