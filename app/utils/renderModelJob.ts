@@ -1,3 +1,4 @@
+import type { LoadingManager } from "three";
 import type { customConfig } from "~/config/customConfig";
 import type { ModelInfo } from "../types/models";
 import { IMGGenerator } from "./GIFGenerator";
@@ -13,6 +14,8 @@ export interface RenderModelJobResult {
 
 export interface RenderModelJobOptions {
   onProgress?: (stage: RenderModelJobStage) => void;
+  /** Creates a fresh isolated manager; caller keeps package URLs alive until job settles. */
+  createLoadingManager?: () => LoadingManager;
   /** Checked before loading and before creating URLs; does not cancel in-flight work. */
   isActive?: () => boolean;
 }
@@ -25,13 +28,13 @@ export async function renderModelJob(
   model: ModelInfo,
   sceneManager: SceneManager,
   config: customConfig,
-  { onProgress, isActive }: RenderModelJobOptions = {}
+  { onProgress, isActive, createLoadingManager }: RenderModelJobOptions = {}
 ): Promise<RenderModelJobResult | null> {
   if (isActive && !isActive()) return null;
 
   try {
     onProgress?.("loading");
-    await sceneManager.loadModel(model);
+    await sceneManager.loadModel(model, createLoadingManager);
 
     onProgress?.("rendering");
     const frames = await sceneManager.captureFrames();

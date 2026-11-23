@@ -105,7 +105,11 @@ export class SceneManager {
       this.renderer.render(this.scene, this.camera);
     }
   }
-  async loadModel(modelInfo: ModelInfo): Promise<void> {
+  async loadModel(
+    modelInfo: ModelInfo,
+    createLoadingManager: () => THREE.LoadingManager = () => new THREE.LoadingManager()
+  ): Promise<void> {
+    const loadingManager = createLoadingManager();
     if (this.isDisposed) {
       throw new Error("SceneManager has been disposed");
     }
@@ -127,27 +131,51 @@ export class SceneManager {
       this.currentObject = null;
     }
 
+    // Hold the manager open across MTL preload and OBJ load so texture completion
+    // (including errors) is part of loadModel, rather than racing frame capture.
+    const previousLoad = loadingManager.onLoad;
+    const previousError = loadingManager.onError;
+    let resourceError: Error | undefined;
+    const ready = new Promise<void>((resolve) => {
+      loadingManager.onLoad = () => { previousLoad?.(); resolve(); };
+    });
+    loadingManager.onError = (url) => {
+      resourceError = new Error(`Failed to load model resource: ${url}`);
+      previousError?.(url);
+    };
+    const gate = "model-load-gate";
+    loadingManager.itemStart(gate);
     try {
       let object: THREE.Object3D;
+      try {
+        if (modelInfo.mtlPath) {
+          const mtlLoader = new MTLLoader(loadingManager);
+          const mtlDirectory = modelInfo.mtlPath.slice(0, modelInfo.mtlPath.lastIndexOf("/") + 1);
+          mtlLoader.setResourcePath(mtlDirectory);
+          const materials = await mtlLoader.loadAsync(modelInfo.mtlPath);
+          materials.preload();
 
-      if (modelInfo.mtlPath) {
-        const mtlLoader = new MTLLoader();
-        const materials = await mtlLoader.loadAsync(modelInfo.mtlPath);
-        materials.preload();
-
-        const objLoader = new OBJLoader();
-        objLoader.setMaterials(materials);
-        object = await objLoader.loadAsync(modelInfo.objPath);
-      } else {
-        const objLoader = new OBJLoader();
-        object = await objLoader.loadAsync(modelInfo.objPath);
+          const objLoader = new OBJLoader(loadingManager);
+          objLoader.setMaterials(materials);
+          object = await objLoader.loadAsync(modelInfo.objPath);
+        } else {
+          const objLoader = new OBJLoader(loadingManager);
+          object = await objLoader.loadAsync(modelInfo.objPath);
+        }
+      } finally {
+        loadingManager.itemEnd(gate);
+        await ready;
       }
+      if (resourceError) throw resourceError;
       this.prepareModel(object);
       this.currentObject = object;
       this.scene.add(object);
     } catch (error) {
       console.error("Error loading model:", error);
       throw error;
+    } finally {
+      loadingManager.onLoad = previousLoad;
+      loadingManager.onError = previousError;
     }
   }
 
