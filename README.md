@@ -1,47 +1,71 @@
 # ModelToImage
 
-A browser-first React/Vite app: one local OBJ ZIP becomes a PNG and a turntable GIF on every run. No accounts, server catalog, uploads, or batch queue.
+> **Un ZIP con un OBJ. Dos resultados listos para descargar.**
+>
+> Convertí una escena Wavefront OBJ local en una imagen PNG y un GIF animado de rotación, directamente en tu navegador.
 
-## Run locally
+`ZIP OBJ` → `Importación en el navegador` → `Render WebGL` → **PNG + GIF**
 
-Requires Node.js 20+ and the dependencies from `package-lock.json`.
+Sin cuentas, subidas, almacenamiento de modelos en un servidor ni procesamiento por lotes. Cada ejecución genera ambos resultados.
+
+## Inicio rápido
+
+### Con Docker
+
+```sh
+docker compose up --build -d
+```
+
+Abrí [http://localhost:8080](http://localhost:8080). Para usar otro puerto, definí `MODELTOIMAGE_PORT`. Para detener la aplicación:
+
+```sh
+docker compose down
+```
+
+La imagen compila la aplicación de una sola página (SPA) con Node y sirve los archivos estáticos con Nginx. `/healthz` es el endpoint de salud del contenedor; los modelos no se envían al contenedor para procesarlos.
+
+### Desarrollo local
+
+Requiere Node.js 20 o posterior.
 
 ```sh
 npm ci
 npm run dev
 ```
 
-Open the URL printed by Vite. Select one ZIP, optionally adjust **Render settings**, and choose **Generate PNG + GIF**. Keep the tab open while processing. Download each artifact using its link; links remain usable until another file/run replaces the results or the app unmounts. Settings persist in browser local storage; imported packages and result URLs do not.
+Abrí la URL que muestra Vite, seleccioná un ZIP y, si hace falta, ajustá **Render settings**. Después elegí **Generate PNG + GIF**. Mantené la pestaña abierta hasta que termine el procesamiento.
 
-## Input and output
+## Qué podés convertir
 
-- Exactly one OBJ per ZIP, optionally one MTL and companion PNG/JPEG/TGA textures. Companion paths must stay within the package; external resources are rejected.
-- Limits: 64 MiB compressed, 128 entries, 64 MiB per expanded entry, 128 MiB expanded total.
-- Both PNG and GIF are always generated; there is no output-format selector. Existing saved format preferences are ignored.
-- Use at least two whole animation frames (the existing PNG encoder takes the second frame), positive FPS and positive whole output dimensions.
-- Rendering/encoding uses the existing Three.js and gif.js pipeline. WebGL support and enough browser memory are required. Processing is local and not durable across tab closure.
-- Existing `public/assets` models remain reference assets, not an automatically loaded catalog.
+Seleccioná un ZIP que contenga:
 
-## Checks
+- Exactamente un archivo `.obj`.
+- Opcionalmente, un archivo `.mtl` y sus texturas PNG, JPEG o TGA.
+
+Las rutas de los recursos deben resolverse dentro del ZIP. Se rechazan los archivos y las URL externas. Límites del archivo: **64 MiB comprimidos**, **128 entradas**, **64 MiB por entrada expandida** y **128 MiB expandidos en total**.
+
+## Resultados y ajustes
+
+Cada ejecución genera una imagen PNG y un GIF animado de rotación. Descargalos antes de elegir otro ZIP o salir de la página: los enlaces son URL temporales del navegador, no archivos guardados. Los ajustes se conservan en el almacenamiento local del navegador; los modelos importados y los resultados no.
+
+Usá al menos dos fotogramas enteros, una velocidad de fotogramas positiva y dimensiones enteras positivas. Se requiere compatibilidad con WebGL y suficiente memoria en el navegador.
+
+## Privacidad
+
+El ZIP se lee y se procesa localmente en el navegador. La geometría, las texturas y las imágenes generadas no se suben ni se guardan en un servidor. Al cerrar la pestaña, el trabajo termina y se liberan las URL temporales.
+
+## Verificaciones
 
 ```sh
 npm test
 npm run test:spa
 npm run typecheck
 npm run lint
-npm run build
+npm run test:docker
 ```
 
-The test suite uses Node's built-in runner via tsx for importer/resource-loading checks. It does not exercise browser image decoding, WebGL, or complete PNG/GIF export; verify those manually in a browser.
+`test:spa` compila el paquete de producción y comprueba los archivos generados, incluido el archivo de trabajo que utiliza el codificador de GIF. `test:docker` requiere Docker y curl; verifica la página, el endpoint de salud y los recursos estáticos del contenedor. Estas pruebas automatizadas no reemplazan una ejecución en un navegador con WebGL usando tu propio paquete de modelos.
 
-## Docker deployment
+## Recursos de referencia
 
-```sh
-docker compose up --build -d
-```
-
-Open `http://localhost:8080`; override the host port with `MODELTOIMAGE_PORT`. The multi-stage image runs tests and the production SPA build in Node, then serves only `build/client` with Nginx. `/healthz` is the container health check. No Node application server, filesystem model API, or uploaded-file storage is used. `docker compose logs -f` follows logs; `docker compose down` stops the service.
-
-Run `npm run test:docker` to build the image and smoke-check the root page, health endpoint, emitted app bundle/GIF worker, and missing-worker 404. This requires Docker and curl. It does not simulate a WebGL browser; select a local ZIP in the browser, generate both artifacts, and verify/download the PNG and GIF. `.dockerignore` excludes build caches and dependencies but intentionally preserves `public/assets` reference models when present in the build context.
-
-The Remix server entry, catalog routes and batch UI have been removed. The existing `public/assets` models remain available as reference fixtures, not an automatically loaded catalog.
+Los modelos de `public/assets` son muestras de referencia; no se cargan como catálogo. Se incluyen en el contexto de Docker cuando están presentes.
